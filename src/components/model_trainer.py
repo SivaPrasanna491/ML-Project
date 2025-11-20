@@ -58,25 +58,7 @@ class Model_Trainer:
             
             logging.info("Training the model")
             
-            report = {}
-            
-            for i in range(len(list(models))):
-                model = list(models.values())[i]
-                model.fit(X_train, y_train)
-                
-                train_pred = model.predict(X_train)
-                test_pred = model.predict(X_test)
-                
-                logging.info("Predictions done successfully")
-                
-                train_mse, train_mae, train_rmse, train_score, train_adjusted_score = evaluate(y_train, train_pred)
-                test_mse, test_mae, test_rmse, test_score, test_adjusted_score = evaluate(y_test, test_pred)
-                
-                report[list(models.keys())[i]] = test_mse
-                report[list(models.keys())[i]] = test_mae
-                report[list(models.keys())[i]] = test_rmse
-                report[list(models.keys())[i]] = test_score
-                report[list(models.keys())[i]] = test_adjusted_score
+            report = evaluate(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models)
             
             best_model_score = max(sorted(report.values()))
             best_model_name = list(report.keys())[
